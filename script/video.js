@@ -1,6 +1,13 @@
+
+function getTimeString(time) {
+    const hour = parseInt(time/3600);
+    let secend = time%3600;
+    let minit = parseInt(secend/60);
+    secend = secend % 60;
+    return `${hour} hour ${minit} minit ${secend} secend ago`;
+}
+
 // fatch, load and show catagoris on html
-
-
 // create load catagoris
 const loadCatagoris = () => {
     // fatch the data 
@@ -46,19 +53,35 @@ const displayVideos = (videos) => {
     videos.forEach(video => {
         console.log(video);
         const card = document.createElement("div");
-        card.classList= "card card-compact";
+        card.classList = "card card-compact";
         card.innerHTML =
-        `
-          <figure>
-            <img
+            `
+          <figure class="h-[200px] relative">
+            <img 
             src=${video.thumbnail}
+            class= "w-full h-full object-cover"
             alt="Shoes" />
+
+            ${video.others.posted_date?.length == 0 ? "" :
+                `
+                <span class="absolute bg-black text-white text-xs p-1 rounded-xl bottom-2 right-2">
+                ${getTimeString(video.others.posted_date)}
+                </span>
+                `}
+            
+            
         </figure>
-        <div class="card-body">
-            <h2 class="card-title">Shoes!</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
+        <div class="px-0 py-2 flex gap-2">
+            <div>
+                <img class= "w-10 h-10 rounded-full object-cover" src=${video.authors[0].profile_picture}/>
+            </div>
+            <div>
+                <h2 class= "font-bold">${video.title}</h2>
+                <div class="flex flex-row items-center gap-3">
+                    <p class="text-gray-500">${video.authors[0].profile_name}</p>
+                    ${video.authors[0].verified == true ? `<img class="w-4" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png"/>` : `<img class="w-4" src="https://img.icons8.com/?size=48&id=fYgQxDaH069W&format=png"/>`}
+                </div>
+                <p class="text-gray-500">${video.others.views} views</p>
             </div>
         </div>   
         
