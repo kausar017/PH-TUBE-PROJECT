@@ -28,10 +28,9 @@ const loadCatagoris = () => {
         .catch(error => console.log(error))
 }
 // create load catagoris
-const loadVideos = () => {
+const loadVideos = (searchText = "") => {
     // fatch the data 
-
-    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
         .then(response => response.json())
         .then(data => displayVideos(data.videos))
         .catch(error => console.log(error))
@@ -181,6 +180,11 @@ const displayCatagoris = (catagiris) => {
 
 
 }
+document.getElementById('search-input').addEventListener('keyup', (e)=> {
+    loadVideos(e.target.value);
+    
+})
+
 
 loadCatagoris();
 loadVideos();
