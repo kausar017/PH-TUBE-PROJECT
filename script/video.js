@@ -52,8 +52,26 @@ const loodCatagoryVideo = (id) => {
 }
 
 
-const loadDitals = () => {
+const loadDitals = async(videoId) => {
+    // console.log(videoId);
+    const uri = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`
+    const response = await fetch(uri);
+    const data = await response.json();
+    displayDitals(data.video);
     
+}
+
+const displayDitals = (video) => {
+    console.log(video);
+    const ditelsContainer = document.getElementById('openModal');
+    
+    ditelsContainer.innerHTML = 
+    `
+        <img class="w-full h-full object-cover" src=${video.thumbnail}/>
+        <p class="p-3 text-gray-500 text-center">${video.description}</p>
+    `
+
+    document.getElementById('showModal').click();
 }
 // {
 //     "category_id": "1001",
@@ -129,10 +147,9 @@ const displayVideos = (videos) => {
                 </div>
                 <p class="text-gray-500">${video.others.views}views</p>
 
-                <p><button class="btn btn-sm btn-error text-white">detals</button></p>
+                <p><button onclick="loadDitals('${video.video_id}')" class="btn btn-sm btn-error text-white">detals</button></p>
             </div>
         </div>   
-        
         `;
         videoContainer.appendChild(card);
     })
